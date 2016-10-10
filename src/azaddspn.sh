@@ -71,8 +71,8 @@ if [[ "" == ${SPOBJECTID} ]]; then
     exit 1
 fi
 
-echo "Waiting 10sec"
-sleep 10
+echo "*** Waiting 15 sec to applying for parameters"
+sleep 15
 
 echo "Attributing contributor role for ${SPOBJECTID} in subscription ${SUBSCRIPTIONNAME}"
 azure role assignment create --objectId ${SPOBJECTID} --roleName Contributor --json > logRole.json

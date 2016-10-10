@@ -1,4 +1,5 @@
 # DockerAzureSPN
+[![](https://images.microbadger.com/badges/image/julienstroheker/dockerazurespn.svg)](https://microbadger.com/images/julienstroheker/dockerazurespn "Get your own image badge on microbadger.com")
 
 Create an SPN application on your Azure Subscription and attribute the collaborator rights on it.
 
@@ -32,6 +33,14 @@ docker run -it julienstroheker/dockerazurespn <NameApp> <PasswordApp>
 You must remplace the `<NameApp>` variable with the name of the application that you want to create and the `<PasswordApp>` with password that you want.
 
 >Note : the `<PasswordApp>` is optional, if you are not specify one, it will generate one for you
+
+## Example
+
+```
+docker run -it julienstroheker/dockerazurespn MyAwesomeApplication MyAw3s0meP@ssw0rd!
+```
+
+
 
 ## Run locally without Docker
 
