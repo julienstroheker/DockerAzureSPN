@@ -1,5 +1,5 @@
 # DockerAzureSPN
-[![](https://images.microbadger.com/badges/image/julienstroheker/dockerazurespn.svg)](https://microbadger.com/images/julienstroheker/dockerazurespn "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/julienstroheker/add-azure-spn.svg)](https://microbadger.com/images/julienstroheker/add-azure-spn "Get your own image badge on microbadger.com")
 
 Create an SPN application on your Azure Active Directory Subscription and attribute the collaborator rights on it.
 
@@ -27,7 +27,7 @@ Tenant ID:                         XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXX
 You must have docker installed and run the following command :
 
 ```
-docker run -it julienstroheker/dockerazurespn <NameApp> <PasswordApp>
+docker run -it julienstroheker/add-azure-spn <NameApp> <PasswordApp>
 ```
 
 You must remplace the `<NameApp>` variable with the name of the application that you want to create and the `<PasswordApp>` with password that you want.
@@ -38,13 +38,13 @@ You must remplace the `<NameApp>` variable with the name of the application that
 
 Input :
 ```
-$ docker run -it julienstroheker/dockerazurespn MyAwesomeApplication MyAw3s0meP@ssw0rd!
+$ docker run -it julienstroheker/add-azure-spn MyAwesomeApplication MyAw3s0meP@ssw0rd!
 ```
 
 Output :
 ```
-Unable to find image 'julienstroheker/dockerazurespn:latest' locally
-latest: Pulling from julienstroheker/dockerazurespn
+Unable to find image 'julienstroheker/add-azure-spn:latest' locally
+latest: Pulling from julienstroheker/add-azure-spn
 
 6a5a5368e0c2: Pull complete
 1cbf663a5918: Pull complete
@@ -53,7 +53,7 @@ latest: Pulling from julienstroheker/dockerazurespn
 82f978178300: Pull complete
 cd2904dbec59: Pull complete
 Digest: sha256:4a755de5cfdada06e3a770767b40b561cea3dfd6da8592530a3ddd07eb81cf15
-Status: Downloaded newer image for julienstroheker/dockerazurespn:latest
+Status: Downloaded newer image for julienstroheker/add-azure-spn:latest
 info:    Executing command login
 \info:    To sign in, use a web browser to open the page https://aka.ms/devicelogin. Enter the code AAAAAAAAA to authenticate.
 /info:    Added subscription YourAzureSubscription
