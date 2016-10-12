@@ -1,4 +1,4 @@
-# DockerAzureSPN
+# DockerAzureSPN / add-azure-spn
 [![](https://images.microbadger.com/badges/image/julienstroheker/add-azure-spn.svg)](https://microbadger.com/images/julienstroheker/add-azure-spn "Get your own image badge on microbadger.com")
 
 Create an SPN application on your Azure Active Directory Subscription and attribute the collaborator rights on it.
