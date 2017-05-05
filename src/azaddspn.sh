@@ -23,7 +23,7 @@ azure login
 if [ -z "$SUBSCRIPTIONNAME" ]; then
   echo "Successfully logged"
   echo " -------- > Pick your subscription : "
-  options=($(azure account list --json | jq -r 'map(select(.state == "Enabled"))|.[]|.name + ":" + .id' | sed -e 's/ /_/g'))
+  options=($(azure account list | jq -r 'map(select(.state == "Enabled"))|.[]|.name + ":" + .id' | sed -e 's/ /_/g'))
   select opt in "${options[@]}"
   do
           SUBSCRIPTIONNAME=`echo $opt | awk -F ':' '{print $1}'`
@@ -33,15 +33,15 @@ fi
 
 echo "**** Using subscription : ${SUBSCRIPTIONNAME}"
 
-TENANTID=$(azure account list --json | jq "map(select(.isDefault == true)) | .[0].tenantId" | sed -e 's/\"//g')
-SUBSCRIPTIONID=$(azure account list --json | jq "map(select(.isDefault == true)) | .[0].id" | sed -e 's/\"//g')
+TENANTID=$(az account list | jq ".[$((REPLY-1))].tenantId" | sed -e 's/\"//g')
+SUBSCRIPTIONID=$(azure account list --json | jq ".[$((REPLY-1))].id" | sed -e 's/\"//g')
 
 if [[ "" == ${TENANTID} ]]; then
     echo "!!! Error - Tenant id. !!!"
     exit 1
 fi
 echo "*** Validating if this application is not already there... You can ignore the parse error message..."
-APPALREDAYTHERE=$(azure ad app show -c ${APPNAME} --json | jq ".[0].displayName" )
+APPALREDAYTHERE=$(azure ad app show -c ${APPNAME} --json | jq ".[$((REPLY-1))].displayName" )
 
 if [[ "" != ${APPALREDAYTHERE} ]]; then
     echo "!!! This application name is already taken !!!"
