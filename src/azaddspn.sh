@@ -33,7 +33,7 @@ fi
 
 echo "**** Using subscription : ${SUBSCRIPTIONNAME}"
 
-TENANTID=$(az account list --json | jq ".[$((REPLY-1))].tenantId" | sed -e 's/\"//g')
+TENANTID=$(azure account list --json | jq ".[$((REPLY-1))].tenantId" | sed -e 's/\"//g')
 SUBSCRIPTIONID=$(azure account list --json | jq ".[$((REPLY-1))].id" | sed -e 's/\"//g')
 
 if [[ "" == ${TENANTID} ]]; then
