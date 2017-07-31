@@ -18,12 +18,12 @@ if [[ "" != ${APPPWD} ]]; then
   PASSWORD=$APPPWD
 fi
 
-azure login
+az login > logAccount.json
 
 if [ -z "$SUBSCRIPTIONNAME" ]; then
   echo "Successfully logged"
   echo " -------- > Pick your subscription : "
-  options=($(azure account list --json | jq -r 'map(select(.state == "Enabled"))|.[]|.name + ":" + .id' | sed -e 's/ /_/g'))
+  options=($(az account list | jq -r 'map(select(.state == "Enabled"))|.[]|.name + ":" + .id' | sed -e 's/ /_/g'))
   select opt in "${options[@]}"
   do
           SUBSCRIPTIONNAME=`echo $opt | awk -F ':' '{print $1}'`
@@ -33,24 +33,24 @@ fi
 
 echo "**** Using subscription : ${SUBSCRIPTIONNAME}"
 
-TENANTID=$(azure account list --json | jq ".[$((REPLY-1))].tenantId" | sed -e 's/\"//g')
-SUBSCRIPTIONID=$(azure account list --json | jq ".[$((REPLY-1))].id" | sed -e 's/\"//g')
+TENANTID=$(az account list | jq ".[$((REPLY-1))].tenantId" | sed -e 's/\"//g')
+SUBSCRIPTIONID=$(az account list | jq ".[$((REPLY-1))].id" | sed -e 's/\"//g')
 
 if [[ "" == ${TENANTID} ]]; then
     echo "!!! Error - Tenant id. !!!"
     exit 1
 fi
 echo "*** Validating if this application is not already there... You can ignore the parse error message..."
-APPALREDAYTHERE=$(azure ad app show -c ${APPNAME} --json | jq ".[$((REPLY-1))].displayName" )
+APPALREDAYTHERE=$(az ad app list --display-name ${APPNAME})
 
-if [[ "" != ${APPALREDAYTHERE} ]]; then
+if [[ "[]" != ${APPALREDAYTHERE} ]]; then
     echo "!!! This application name is already taken !!!"
     exit 1
 fi
 
 echo "**** Creating AD application ${APPNAME}"
 
-azure ad app create -n ${APPNAME} -i http://${APPNAME} -m http://${APPNAME} -p ${PASSWORD} --json > logApp.json
+az ad app create --display-name ${APPNAME} --identifier-uris http://${APPNAME} --homepage http://${APPNAME} --password ${PASSWORD} > logApp.json
 
 APPID=$(jq .appId logApp.json | sed -e s/\"//g)
 
@@ -61,7 +61,7 @@ if [[ "" == ${APPID} ]]; then
 fi
 
 echo "**** Creating SPN"
-azure ad sp create --applicationId ${APPID}  --json > logAppSP.json
+az ad sp create --id ${APPID} > logAppSP.json
 
 SPOBJECTID=$(jq .objectId logAppSP.json | sed -e 's/\"//g')
 
@@ -75,7 +75,7 @@ echo "*** Waiting 15 sec to applying for parameters"
 sleep 15
 
 echo "Attributing contributor role for ${SPOBJECTID} in subscription ${SUBSCRIPTIONNAME}"
-azure role assignment create --objectId ${SPOBJECTID} --roleName Contributor --json > logRole.json
+az role assignment create --assignee ${SPOBJECTID} --role Contributor > logRole.json
 
 echo
 

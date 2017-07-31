@@ -1,6 +1,4 @@
-FROM microsoft/azure-cli
-
-MAINTAINER juliens@microsoft.com
+FROM azuresdk/azure-cli-python
 
 ADD src/* /usr/local/bin/azaddspn.sh
 
