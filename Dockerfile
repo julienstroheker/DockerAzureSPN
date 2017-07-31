@@ -1,4 +1,4 @@
-FROM microsoft/azure-cli-python
+FROM azuresdk/azure-cli-python
 
 ADD src/* /usr/local/bin/azaddspn.sh
 
